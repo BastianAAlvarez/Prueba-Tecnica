@@ -12,20 +12,23 @@ export class TaskService {
 
   constructor() {}
 
-  // Obtener todas las tareas
+
+  // Obtener array tareas
   obtenerTasks(): Task[] {
     const tasks = localStorage.getItem(this.storageKey);
     return tasks ? JSON.parse(tasks) : [];
   }
 
-  // Agregar nueva tarea
+  // Añadir tarea
   añadirTask(task: Task): void {
     const tasks = this.obtenerTasks();
-    tasks.push(task);
+    const newId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id || 0)) + 1 : 1;
+    tasks.push({ ...task, id: newId });
     localStorage.setItem(this.storageKey, JSON.stringify(tasks));
   }
 
-  // Eliminar tarea por ID
+
+  // Eliminar tarea
   eliminarTask(id: number): void {
     let tasks = this.obtenerTasks();
     tasks = tasks.filter((task) => task.id !== id);
@@ -42,13 +45,14 @@ export class TaskService {
     }
   }
 
+  // Conteo de tareas pendientes
   obtenerTasksPendiente(): number {
-    return this.tasks.filter((task) => !task.isCompleted).length;
+    return this.obtenerTasks().filter((task) => !task.isCompleted).length;
   }
 
-  // Cantidad de tareas completadas
+  // Conteo de tareas completadas
   obtenerTasksCompletadas(): number {
-    return this.tasks.filter((task) => task.isCompleted).length;
+    return this.obtenerTasks().filter((task) => task.isCompleted).length;
   }
 
 }

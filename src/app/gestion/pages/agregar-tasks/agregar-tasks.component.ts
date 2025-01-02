@@ -19,7 +19,7 @@ export class AgregarTasksComponent implements OnInit {
       titulo: ['', [Validators.required]],
       descripcion: [''],
       fechaLimite: ['', [Validators.required, this.validateDate]],
-      tipo: ['', [Validators.required]]
+      Tipo: ['', [Validators.required,  Validators.maxLength(15)]]
     });
   }
 
@@ -36,12 +36,14 @@ export class AgregarTasksComponent implements OnInit {
         fechaInicial: this.taskForm.get('fechaInicial')?.value,
         isCompleted: false
       };
+      // Una vez validado se añade la tarea
       this.taskService.añadirTask(newTask);
       this.taskForm.reset();
     }
   }
 
-  // Validar que la fecha límite no sea anterior a hoy
+
+  // Validacion de que la fecha no puede ser igual o anterior a la fecha actual
   validateDate(control: any) {
     const selectedDate = new Date(control.value);
     const today = new Date();

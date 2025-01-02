@@ -1,24 +1,43 @@
-<div class="color-back">
-  <div class="row row-cols-1 row-cols-md-3 my-4">
-    <div class="card text-bg-info mb-3 mx-auto">
+<div class="row row-cols-1 row-cols-md-3 g-4 my-4 mx-auto">
+  <!-- Card: Tareas Totales -->
+  <div class="col">
+    <div class="card text-white bg-primary shadow h-100 text-center">
       <div class="card-body">
         <h5 class="card-title">Tareas Totales</h5>
-        <p class="card-text">{{  pendingTasksCount + completedTasksCount }}</p>
-      </div>
-    </div>
-    <div class="card text-bg-success mb-3 mx-auto">
-      <div class="card-body">
-        <h5 class="card-title">Tareas Completadas</h5>
-        <p class="card-text">{{  completedTasksCount  }}</p>
-      </div>
-    </div>
-    <div class="card text-bg-danger mb-3 mx-auto">
-      <div class="card-body">
-        <h5 class="card-title">Tareas Pendientes</h5>
-        <p class="card-text">{{ pendingTasksCount }}</p>
+        <div class="display-4 fw-bold">
+          {{ tasks.length }}
+        </div>
+        <i class="bi bi-clipboard-fill fs-1 mt-3"></i>
       </div>
     </div>
   </div>
+
+  <!-- Card: Tareas Pendientes -->
+  <div class="col">
+    <div class="card text-white bg-warning shadow h-100 text-center">
+      <div class="card-body">
+        <h5 class="card-title">Tareas Pendientes</h5>
+        <div class="display-4 fw-bold">
+          {{ conteoTasksPendientes }}
+        </div>
+        <i class="bi bi-hourglass-split fs-1 mt-3"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card: Tareas Completadas -->
+  <div class="col">
+    <div class="card text-white bg-success shadow h-100 text-center">
+      <div class="card-body">
+        <h5 class="card-title">Tareas Completadas</h5>
+        <div class="display-4 fw-bold">
+          {{ conteoTasksCompletadas }}
+        </div>
+        <i class="bi bi-check-circle-fill fs-1 mt-3"></i>
+      </div>
+    </div>
+  </div>
+</div>
 
   <hr class="my-5 border border-3 border-black" />
 
@@ -26,6 +45,7 @@
   <div class="table-responsive mx-5 shadow-lg">
     <table class="table table-bordered table-hover align-middle shadow-lg">
       <thead class="table-dark text-center">
+        <!-- Declaracion campos -->
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Tarea</th>
@@ -38,21 +58,25 @@
         </tr>
       </thead>
       <tbody class="text-center">
+
+        <!-- Muestra de datos en la tabla -->
         <tr *ngFor="let task of tasks">
           <th scope="row">{{task.id}}</th>
           <td>{{ task.titulo }}</td>
           <td>{{ task.descripcion }}</td>
-          <td>{{ task.fechaInicial | date: 'shortDate' }}</td>
-          <td>{{ task.fechaLimite | date: 'shortDate' }}</td>
+          <td>{{ task.fechaInicial | date}}</td>
+          <td>{{ task.fechaLimite | date }}</td>
           <td>{{ task.Tipo }}</td>
           <td>{{ task.isCompleted ? 'Completada' : 'Pendiente' }}</td>
           <td>
+            <!-- Boton de cambio de estado -->
             <button
               class="btn btn-success btn-sm me-2"
               (click)="toggleCompletion(task)"
             >
               {{ task.isCompleted ? 'Marcar Pendiente' : 'Marcar Completada' }}
             </button>
+            <!-- Boton para eliminar tarea -->
             <button class="btn btn-danger btn-sm" (click)="deleteTask(task.id)">Eliminar</button>
           </td>
         </tr>

@@ -24,27 +24,32 @@ export class ListadoTareasComponent {
 
   constructor(private taskService: TaskService) {}
 
-  pendingTasksCount: number = 0;
-  completedTasksCount: number = 0;
+  conteoTasksPendientes: number = 0;
+  conteoTasksCompletadas: number = 0;
 
   ngOnInit(): void {
     this.updateTaskCounts();
     this.tasks = this.taskService.obtenerTasks();
   }
 
+  // Actualizar conteo tras eliminacion de tarea
   deleteTask(id: number): void {
     this.taskService.eliminarTask(id);
     this.tasks = this.taskService.obtenerTasks();
+    this.updateTaskCounts();
   }
 
+  // Cambio de estado
   toggleCompletion(task: Task): void {
     task.isCompleted = !task.isCompleted;
     this.taskService.actualizarTask(task);
+    this.updateTaskCounts();
   }
 
+  // Actualizar conteo de tareas
   updateTaskCounts(): void {
-    this.pendingTasksCount = this.taskService.obtenerTasksPendiente();
-    this.completedTasksCount = this.taskService.obtenerTasksCompletadas();
+    this.conteoTasksPendientes = this.taskService.obtenerTasksPendiente();
+    this.conteoTasksCompletadas = this.taskService.obtenerTasksCompletadas();
   }
 
 }

@@ -4,6 +4,7 @@
   </div>
   <div class="card-body">
     <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+
       <!-- Nombre de la tarea -->
       <div class="mb-3">
         <label class="form-label">Nombre de la tarea</label>
@@ -31,13 +32,20 @@
       <!-- Tipo de tarea -->
       <div class="mb-3">
         <label class="form-label">Tipo de tarea</label>
-        <input type="text" class="form-control" formControlName="tipo" />
-        <div *ngIf="taskForm.get('tipo')?.invalid && taskForm.get('tipo')?.touched" class="text-danger">
+        <input type="text" class="form-control" formControlName="Tipo" />
+
+        <!-- Validación que Tipo es campo obligatorio -->
+        <div *ngIf="taskForm.get('Tipo')?.invalid && taskForm.get('Tipo')?.touched" class="text-danger">
           El tipo de tarea es obligatorio.
+        </div>
+
+        <!-- Validación que Tipo contiene menos de 15 caracteres -->
+        <div *ngIf="taskForm.get('Tipo')?.hasError('maxlength')" class="text-danger">
+          El tipo no puede tener más de 15 caracteres.
         </div>
       </div>
 
-      <!-- Botón -->
+      <!-- Botón de agregar tarea -->
       <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Agregar Tarea</button>
     </form>
   </div>
